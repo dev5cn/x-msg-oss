@@ -45,6 +45,8 @@ bool XmsgOss::start(const char* path)
 	Xsc::init();
 	if (!XmsgOssDb::instance()->load())
 		return false;
+	if (XmsgOssCfg::instance()->cfgPb->misc().storage() == XmsgOssStorageType::X_MSG_OSS_STORAGE_TYPE_IPFS && !XmsgOssIpfsOper::instance()->init()) 
+		return false;
 	XmsgOssTransmissionMgr::instance()->init();
 	shared_ptr<XscTcpServer> tcpServer(new XscTcpServer(cfg->cfgPb->cgt(), shared_ptr<XmsgOssTcpLog>(new XmsgOssTcpLog())));
 	if (!tcpServer->startup(XmsgOssCfg::instance()->priXscTcpServerCfg())) 
